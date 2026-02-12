@@ -52,9 +52,18 @@ async fn main() -> Result<()> {
             tracing::info!("scaffolding complete");
         }
         Command::Start { config } => {
-            let _project_config = comm_node::config::load(&config)?;
-            tracing::info!("starting comm-node (not yet implemented)");
-            // TODO: start watcher, router, lock manager event loop
+            let project_config = comm_node::config::load(&config)?;
+            let state_dir = dirs::home_dir()
+                .expect("cannot determine home directory")
+                .join(".comm-node/state");
+            tracing::info!(
+                domains = project_config.domains.len(),
+                state_dir = %state_dir.display(),
+                "starting comm-node"
+            );
+            let orchestrator =
+                comm_node::orchestrator::Orchestrator::new(&project_config, state_dir)?;
+            orchestrator.run().await?;
         }
         Command::Status => {
             println!("comm-node status: not yet implemented");
