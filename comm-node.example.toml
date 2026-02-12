@@ -1,0 +1,12 @@
+# Example comm-node configuration for a two-domain project.
+# Copy to `comm-node.toml` and adjust paths for your project.
+
+[domains.backend]
+path = "/path/to/project/backend"
+description = "REST API, authentication, database layer"
+scope = ["src/api/**", "src/models/**", "src/services/**"]
+
+[domains.frontend]
+path = "/path/to/project/frontend"
+description = "React UI, components, state management"
+scope = ["src/components/**", "src/pages/**", "src/hooks/**"]

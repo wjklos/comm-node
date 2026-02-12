@@ -47,6 +47,7 @@ async fn main() -> Result<()> {
     match cli.command {
         Command::Init { config } => {
             let project_config = comm_node::config::load(&config)?;
+            tracing::info!(domains = project_config.domains.len(), "initializing comm-node");
             comm_node::scaffold::scaffold(&project_config)?;
             tracing::info!("scaffolding complete");
         }
